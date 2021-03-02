@@ -1,0 +1,102 @@
+﻿@page
+@model CronReminder.Pages.EditModel
+
+
+@if (@Model.reminder.ReminderId == 0)
+{<div>
+        <form asp-page-handler="AddReminder" method="post">
+            <div class="container">
+                <div class="row">
+                    <div class="col-md-6">
+                        <label class="col-form-label">Reminder Name</label>
+                        <input id="reminderName" class="form-control" type="text" asp-for="@Model.reminder.ReminderName" />
+                        <span asp-validation-for="@Model.reminder.ReminderName" class="text-danger"></span>
+                    </div>
+                    <div class="col-md-6">
+                        <label class="col-form-label">Cell Number</label>
+                        <input id="reminderCell" class="form-control" type="tel" asp-for="@Model.reminder.CellNumber" />
+                        <span asp-validation-for="@Model.reminder.CellNumber" class="text-danger"></span>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-6">
+                        <label class="col-form-label">Description</label>
+                        <!--<textarea id="reminderdescp" class="form-control" type="text" asp-for="@Model.reminder.ReminderDescription" rows="2"></textarea>-->
+                        <input id="reminderdescp" class="form-control" type="text" asp-for="@Model.reminder.ReminderDescription" />
+                        <span asp-validation-for="@Model.reminder.ReminderDescription" class="text-danger"></span>
+                    </div>
+                    <div class="col-md-6">
+                        <label class="col-form-label">Reminder Date</label>
+                        <input id="reminderDate" class="form-control" type="date" min="2021-01-01" max="2050-12-31" asp-for="@Model.reminder.ReminderDate" />
+                        <span asp-validation-for="@Model.reminder.ReminderDate" class="text-danger"></span>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-12">
+                        <input type="hidden" asp-for="@Model.reminder.ReminderId" />
+                        <input style="margin-top:20px" class="form-control btn btn-outline-primary" type="submit" name="name" value="Submit" />
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+}
+else
+{
+    <div>
+        <form asp-page-handler="UpdateReminder" method="post">
+            <div class="container">
+                <div class="row" >
+                    <div class="col-md-6">
+                        <label class="col-form-label">Reminder Name</label>
+                        <input id="reminderName" class="form-control" type="text" asp-for="@Model.reminder.ReminderName" />
+                    </div>
+                    <div class="col-md-6">
+                        <label class="col-form-label">Cell Number</label>
+                        <input id="reminderCell" class="form-control" type="tel" asp-for="@Model.reminder.CellNumber" />
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-6">
+                        <label class="col-form-label">Description</label>
+                        <!--<textarea id="reminderdescp" class="form-control" type="text" asp-for="@Model.reminder.ReminderDescription" rows="2"></textarea>-->
+                        <input id="reminderdescp" class="form-control" type="text" asp-for="@Model.reminder.ReminderDescription" />
+                    </div>
+                    <div class="col-md-6">
+                        <label class="col-form-label">Reminder Date</label>
+                        <input id="reminderDate" class="form-control" type="date" min="2021-01-01" max="2050-12-31" asp-for="@Model.reminder.ReminderDate" />
+                    </div>
+                </div>
+                <div>
+                    <div class="row">
+                        <div class="col-md-6">
+                            <input type="hidden" asp-for="@Model.reminder.ReminderId" />
+                            <input style="margin-top:20px" class="form-control btn btn-outline-primary" type="submit" name="name" value="Update" />
+                        </div>
+                        <div class="col-md-6">
+                            <button style="margin-top:20px" id="deleteButton" class="form-control btn btn-outline-danger" name="reminderId" value="@Model.reminder.ReminderId">Delete</button>
+                        </div>
+
+                        <!--<div class="col-lg-6">
+                            <button id="deleteButton" class="form-control btn btn-outline-warning" name="reminderId" value="@Model.reminder.ReminderId">Delete</button>
+                        </div>-->
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+}
+
+<script>
+    $(document).ready(function () {
+        $("#deleteButton").click(function () {
+            var userSelection = window.confirm("Are you sure you want to delete this reminder");
+            if (userSelection) {
+                $("#deleteButton").attr('formaction', '/Edit?handler=DeleteReminder').submit();
+
+            } else {
+                return false
+            }
+        });
+    });
+</script>
